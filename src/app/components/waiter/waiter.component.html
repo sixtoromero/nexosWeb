@@ -1,0 +1,200 @@
+<div class="row">    
+    <p-toast position="center" key="tl"></p-toast>
+    
+        <div class="col-md-12">
+            <div class="card card-success">
+                <div class="card-header">                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">Camareros</h3>
+                        </div>
+                        <div class="col-md-6" style="text-align: right;">
+                            <button pButton pRipple type="button" icon="pi pi-plus-circle" class="p-button-rounded" (click)="displayModalWaiter=true;"></button>                            
+                        </div>
+                    </div>                                        
+                </div>
+                <div class="card-body">
+                    <!-- <div class="row">
+                        <p-messages [value]="msgs"></p-messages>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p-table 
+                                #dt1 
+                                [value]="waiters"
+                                selectionMode="single"
+                                [(selection)]="selectedWaiters"
+                                dataKey="IdCamarero"
+                                styleClass="p-datatable-customers"
+                                [rows]="5"
+                                [paginator]="true" 
+                                stateStorage="local" 
+                                stateKey="statedemo-local">
+                                <ng-template pTemplate="header">
+                                    <tr>                                        
+                                        <th pSortableColumn="Nombre">Nombres Completo <p-sortIcon field="Nombre"></p-sortIcon></th>
+                                        <th pSortableColumn="Apellido1">Primer Apellido <p-sortIcon field="Apellido1"></p-sortIcon></th>
+                                        <th pSortableColumn="Apellido2">Segundo Apellido <p-sortIcon field="Apellido2"></p-sortIcon></th>                                        
+                                        <th pSortableColumn="Acciones">Acciones</th>
+                                    </tr>
+                                    <tr>                                        
+                                        <th>
+                                            <input 
+                                                pInputText 
+                                                type="text" 
+                                                (input)="dt1.filter($event.target.value, 'Nombre', 'contains')" 
+                                                [value]="dt1.filters['_about']?.value" 
+                                                placeholder="Buscar por Nombres" 
+                                                class="p-column-filter">
+                                        </th>
+                                        <th>
+                                            <input 
+                                                pInputText 
+                                                type="text" 
+                                                (input)="dt1.filter($event.target.value, 'Apellido1', 'contains')" 
+                                                [value]="dt1.filters['accessURL']?.value" 
+                                                placeholder="Buscar por Primer Apellido" 
+                                                class="p-column-filter">
+                                        </th>
+                                        <th>
+                                            <input 
+                                                pInputText type="text" 
+                                                (input)="dt1.filter($event.target.value, 'Apellido2', 'contains')" 
+                                                [value]="dt1.filters['title']?.value" 
+                                                placeholder="Buscar por Segundo Apellido" 
+                                                class="p-column-filter">
+                                        </th>
+                                        <th>                                            
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-Waiters>
+                                    <tr [pSelectableRow]="Waiters">
+                                        <td>                  
+                                            {{Waiters.Nombre}}
+                                        </td>
+                                        <td>
+                                            {{Waiters.Apellido1}}
+                                        </td>
+                                        <td>
+                                            {{Waiters.Apellido2}}
+                                        </td>
+                                        <td>
+                                            <div class="row" style="text-align:center;">
+                                                <div class="col-md-2">
+                                                    <button 
+                                                        pButton
+                                                        pRipple
+                                                        type="button"
+                                                        icon="pi pi-pencil"
+                                                        (click)="editModal(Waiters)"
+                                                        class="p-button-rounded p-button-info p-button-success">
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <button 
+                                                        pButton
+                                                        pRipple
+                                                        type="button"
+                                                        icon="pi pi-trash"
+                                                        (click)="deleteWaiter(Waiters)"
+                                                        class="p-button-rounded p-button-info p-button-danger">
+                                                    </button>
+                                                </div>
+                                            </div>                                            
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="4">No customers found.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>        
+</div>
+
+<p-dialog 
+        header="Camarero" 
+        [(visible)]="displayModalWaiter"
+        [modal]="true" 
+        [style]="{width: '50vw'}" 
+        [baseZIndex]="10000" 
+        [draggable]="false" 
+        [resizable]="false"
+        [closable]="false">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Crear Waiter</h3>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="myForm" #Waiterfrm="ngForm" >
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <h6>Nombres</h6>
+                                        <input 
+                                            id="Nombre" 
+                                            type="text" 
+                                            class="form-control" 
+                                            formControlName="nombre"
+                                            [ngClass]="{ 'is-invalid': f.nombre.invalid && (f.nombre.dirty || f.nombre.touched) }"
+                                            [(ngModel)]="model.Nombre" />
+                                        <div *ngIf="f.nombre.errors && (f.nombre.dirty || f.nombre.touched)" class="invalid-feedback">
+                                            <div>El Nombre completo es requerido</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h6>Primer Apellido</h6>
+                                        <input 
+                                            id="Apellido1" 
+                                            type="text" 
+                                            class="form-control" 
+                                            formControlName="apellido1"
+                                            [ngClass]="{ 'is-invalid': f.apellido1.invalid && (f.apellido1.dirty || f.apellido1.touched) }"
+                                            [(ngModel)]="model.Apellido1" />
+                                        <div *ngIf="f.apellido1.errors && (f.apellido1.dirty || f.apellido1.touched)" class="invalid-feedback">
+                                            <div>El primer apellido es requerido</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h6>Segundo Apellido</h6>
+                                        <input 
+                                            id="Apellido2" 
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="apellido2"
+                                            [ngClass]="{ 'is-invalid': f.apellido2.invalid && (f.apellido2.dirty || f.apellido2.touched) }"
+                                            [(ngModel)]="model.Apellido2" />
+                                        <div *ngIf="f.apellido2.errors && (f.apellido2.dirty || f.apellido2.touched)" class="invalid-feedback">
+                                            <div>El segundo apellido es requerido</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                
+                        </form>               
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p-footer>            
+            <button type="button" pButton (click)="clear();" label="Cerrar" class="ui-button-secondary"></button>    
+            <button type="button" pButton icon="pi pi-check" (click)="processWaiter();" [disabled]="!myForm.valid" label="Guardar"></button>
+        </p-footer>
+    </p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<ngx-ui-loader></ngx-ui-loader>
+<p-toast></p-toast>
