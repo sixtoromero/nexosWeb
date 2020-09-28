@@ -118,7 +118,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group" style="text-align: right;">
-                                            <button pButton pRipple type="button" icon="pi pi-plus" (click)="addItem()" class="p-button-rounded p-button-info"></button>
+                                            <button pButton pRipple type="button" icon="pi pi-plus" [disabled]="!facForm.valid" (click)="addItem()" class="p-button-rounded p-button-info"></button>
                                         </div>
                                     </div>                                    
                                 </div>
@@ -126,8 +126,6 @@
                                     <p-table 
                                         #dtAdd
                                         [value]="addDetBills"
-                                        selectionMode="single"
-                                        [(selection)]="selectedAddDetBills"
                                         dataKey="IdFactura"
                                         styleClass="p-datatable-customers"
                                         [rows]="5"

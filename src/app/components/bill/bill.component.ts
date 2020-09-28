@@ -193,6 +193,18 @@ export class BillComponent implements OnInit {
     const iModel = this.prepareItemDetFac();
 
     console.log('iModel', iModel);
+    idetFac.IdFactura = 0;
+    idetFac.IdCocinero = iModel.IdCocinero;
+    idetFac.Plato = iModel.Plato;
+    idetFac.Importe = iModel.Importe;
+    const nameChef = this.chefs.find(x => x.IdCocinero === iModel.IdCocinero);
+    idetFac.Cocinero = `${nameChef.Nombre} ${nameChef.Apellido1} ${nameChef.Apellido2}`;
+
+    this.addDetBills.push(idetFac);
+
+    this.f.IdCocinero.setValue('');
+    this.f.Plato.setValue('');
+    this.f.Importe.setValue('');
 
   }
 
