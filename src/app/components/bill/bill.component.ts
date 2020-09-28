@@ -90,7 +90,8 @@ export class BillComponent implements OnInit {
     this.getChefAll();
     this.getCustomerAll();
     this.getWaiterAll();
-    this.getTableAll();
+    this.getTableAll();    
+
   }
 
   getViewFacetura() {
@@ -185,6 +186,22 @@ export class BillComponent implements OnInit {
 
   processBill(){
 
+  }
+
+  addItem() {
+    let idetFac: DetalleFacturaModel = new DetalleFacturaModel();
+    const iModel = this.prepareItemDetFac();
+
+    console.log('iModel', iModel);
+
+  }
+
+  createBill() {
+
+  }
+
+  private prepareItemDetFac(): DetalleFacturaModel {
+    return new DetalleFacturaModel().deserialize(this.facForm.value);
   }
 
 }

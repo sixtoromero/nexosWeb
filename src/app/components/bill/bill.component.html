@@ -118,7 +118,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group" style="text-align: right;">
-                                            <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-info"></button>
+                                            <button pButton pRipple type="button" icon="pi pi-plus" (click)="addItem()" class="p-button-rounded p-button-info"></button>
                                         </div>
                                     </div>                                    
                                 </div>
@@ -221,6 +221,12 @@
                             </form>
                         </div>                                                
                     </div>                    
+                </div>
+                <div class="card-footer" style="text-align: right;">
+                    <span class="p-buttonset">
+                        <button pButton pRipple label="Generar Factura" (click)="createBill()" icon="pi pi-check"></button>                    
+                        <button pButton pRipple label="Limpiar" icon="pi pi-times"></button>
+                    </span>
                 </div>
             </div>
         </div>        
