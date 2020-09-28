@@ -18,9 +18,10 @@ export class CustomerComponent implements OnInit {
 
   displayModalCustomer: boolean;
   msgs: Message[] = [];
-  model = new ClienteModel();
+  //model = new ClienteModel();
   customers: ClienteModel[] = [];  
   selectedCustomer = new ClienteModel();
+  isNew: boolean = true;
 
   public myForm: FormGroup  = new FormGroup({});
 
@@ -31,10 +32,11 @@ export class CustomerComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private ngxService: NgxUiLoaderService) {
     this.myForm = fb.group({
-      nombre: ['', [Validators.required]],
-      apellido1: ['', [Validators.required]],
-      apellido2: ['', [Validators.required]],
-      observaciones: ['', []]
+      IdCliente: ['', []],
+      Nombre: ['', [Validators.required]],
+      Apellido1: ['', [Validators.required]],
+      Apellido2: ['', [Validators.required]],
+      Observaciones: ['', []]
     });
   }
 
@@ -44,7 +46,7 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCustomerAll();
-    this.model.IdCliente = 0;
+    //this.model.IdCliente = 0;
   }
 
   getCustomerAll() {
@@ -61,7 +63,7 @@ export class CustomerComponent implements OnInit {
   }
 
   processCustomer() {
-    if (this.model.IdCliente === 0) {
+    if (this.isNew === true) {
       this.saveCustomer();      
     } else {
       this.editcustomer();
@@ -71,7 +73,8 @@ export class CustomerComponent implements OnInit {
   editcustomer() {
     //model.IdCocinero
     this.ngxService.start();
-    this._service.update(this.model)
+    const model = this.prepareSave();
+    this._service.update(model)
     .pipe(
       finalize(() => this.ngxService.stop()))
     .subscribe(response => {
@@ -89,7 +92,8 @@ export class CustomerComponent implements OnInit {
 
   saveCustomer() {
     this.ngxService.start();
-    this._service.insert(this.model)
+    const model = this.prepareSave();
+    this._service.insert(model)
     .pipe(finalize(() => this.ngxService.stop()))
     .subscribe(response => {
       if (response["IsSuccess"]){
@@ -105,9 +109,17 @@ export class CustomerComponent implements OnInit {
     });
   }
 
-  editModal(customer: ClienteModel){
-    this.model = customer;
+  editModal(model: ClienteModel){
+    //this.model = customer;
+    
+    this.f.IdCliente.setValue(model.IdCliente);
+    this.f.Nombre.setValue(model.Nombre);
+    this.f.Apellido1.setValue(model.Apellido1);
+    this.f.Apellido2.setValue(model.Apellido2);
+    this.f.Observaciones.setValue(model.Observaciones);
+
     this.displayModalCustomer = true;
+
   }
 
   deleteCustomer(customer: ClienteModel) {
@@ -136,7 +148,11 @@ export class CustomerComponent implements OnInit {
 
   clear(){
     this.displayModalCustomer = false;
-    this.model = new ClienteModel();
+    this.myForm.reset();
+  }
+
+  private prepareSave(): ClienteModel {
+    return new ClienteModel().deserialize(this.myForm.value);
   }
 
 

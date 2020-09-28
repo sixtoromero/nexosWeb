@@ -23,7 +23,7 @@ export class ChefComponent implements OnInit {
 
   msgs: Message[] = [];
   //model = new CocineroModel();
-  model: CocineroModel;// = new CocineroModel();
+  //model: CocineroModel;// = new CocineroModel();
   chefs: CocineroModel[] = [];
   selectedChef = new CocineroModel();
   
@@ -99,9 +99,9 @@ export class ChefComponent implements OnInit {
 
   saveChef() {
     //this.ngxService.start();
-    const chefModel = this.prepareSave();
+    const model = this.prepareSave();
 
-    this._service.insert(chefModel)
+    this._service.insert(model)
       .pipe(finalize(() => this.ngxService.stop()))
       .subscribe(response => {
         if (response["IsSuccess"]){
