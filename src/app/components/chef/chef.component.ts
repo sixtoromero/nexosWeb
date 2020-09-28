@@ -11,6 +11,8 @@ import { CocineroModel } from '../../models/cocinero.model';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { finalize } from 'rxjs/operators';
 
+import { Deserializable } from '../../models/deserializable.model';
+
 @Component({
   selector: 'app-chef',
   templateUrl: './chef.component.html',
@@ -20,11 +22,13 @@ import { finalize } from 'rxjs/operators';
 export class ChefComponent implements OnInit {
 
   msgs: Message[] = [];
-  model = new CocineroModel();
+  //model = new CocineroModel();
+  model: CocineroModel;// = new CocineroModel();
   chefs: CocineroModel[] = [];
   selectedChef = new CocineroModel();
   
   displayModalChef: boolean = false;
+  isNew: boolean = true;
 
   public chefForm: FormGroup  = new FormGroup({});
 
@@ -35,9 +39,10 @@ export class ChefComponent implements OnInit {
       private confirmationService: ConfirmationService,
       private ngxService: NgxUiLoaderService) {
     this.chefForm = fb.group({
-      nombre: ['', [Validators.required]],
-      apellido1: ['', [Validators.required]],
-      apellido2: ['', [Validators.required]]
+      IdCocinero: ['0', []],
+      Nombre: ['', [Validators.required]],
+      Apellido1: ['', [Validators.required]],
+      Apellido2: ['', [Validators.required]]
     });
   }
 
@@ -46,8 +51,7 @@ export class ChefComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getChefAll();
-    this.model.IdCocinero = 0;
+    this.getChefAll();    
   }
 
   getChefAll() {
@@ -63,8 +67,9 @@ export class ChefComponent implements OnInit {
     });
   }
 
-  processChef() {
-    if (this.model.IdCocinero === 0) {
+  processChef() {    
+
+    if (this.isNew) {      
       this.saveChef();      
     } else {
       this.editChef();
@@ -74,7 +79,8 @@ export class ChefComponent implements OnInit {
   editChef() {
     //model.IdCocinero
     this.ngxService.start();
-    this._service.update(this.model)
+    const chefModel = this.prepareSave();
+    this._service.update(chefModel)
     .pipe(
       finalize(() => this.ngxService.stop()))
     .subscribe(response => {
@@ -82,6 +88,7 @@ export class ChefComponent implements OnInit {
         this.clear();
         this._general.showSuccess('Registrado actualizado exitosamente');        
         this.getChefAll();
+        this.isNew = true;
       } else {
         this._general.showError(`Ha ocurrido un error inesperado: ${response["Message"]}`);
       }
@@ -91,25 +98,35 @@ export class ChefComponent implements OnInit {
   }
 
   saveChef() {
-    this.ngxService.start();
-    this._service.insert(this.model)
-    .pipe(finalize(() => this.ngxService.stop()))
-    .subscribe(response => {
-      if (response["IsSuccess"]){        
-        this.clear();
-        this._general.showSuccess('Registrado exitosamente');        
-        this.getChefAll();
-      } else {
-        this._general.showError(`Ha ocurrido un error inesperado: ${response["Message"]}`)  
-      }
-    }, error => {
-      this._general.showError('Ha ocurrido un error inesperado.');
+    //this.ngxService.start();
+    const chefModel = this.prepareSave();
+
+    this._service.insert(chefModel)
+      .pipe(finalize(() => this.ngxService.stop()))
+      .subscribe(response => {
+        if (response["IsSuccess"]){
+          this.clear();
+          this._general.showSuccess('Registrado exitosamente');
+          this.getChefAll();
+        } else {
+          this._general.showError(`Ha ocurrido un error inesperado: ${response["Message"]}`)  
+        }
+      }, error => {
+        this._general.showError('Ha ocurrido un error inesperado.');
     });
   }
 
   editModal(chef: CocineroModel){
-    this.model = chef;
+    //this.model = chef;
+
+    this.f.IdCocinero.setValue(chef.IdCocinero);
+    this.f.Nombre.setValue(chef.Nombre);
+    this.f.Apellido1.setValue(chef.Apellido1);
+    this.f.Apellido2.setValue(chef.Apellido2);
+
+    this.isNew = false;
     this.displayModalChef = true;
+
   }
 
   deleteChef(chef: CocineroModel) {
@@ -136,9 +153,13 @@ export class ChefComponent implements OnInit {
     });
   }
 
+  private prepareSave(): CocineroModel {
+    return new CocineroModel().deserialize(this.chefForm.value);
+  }
+
   clear(){
     this.displayModalChef = false;
-    this.model = new CocineroModel();
+    this.chefForm.reset();
   }
 
 }
