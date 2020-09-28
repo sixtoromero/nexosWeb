@@ -182,6 +182,8 @@ export class BillComponent implements OnInit {
 
   clear() {
     this.displayModalBill = false;
+    this.addDetBills = [];
+    this.facForm.reset();
   }
 
   processBill(){
@@ -209,11 +211,47 @@ export class BillComponent implements OnInit {
   }
 
   createBill() {
+    this.ngxService.start();
+    let model: FacturaModel = new FacturaModel();
+    let idet: DetalleFacturaModel = new DetalleFacturaModel();
+    const iFac = this.prepareItemFac();
+    
+    model.DetalleFactura = new Array<DetalleFacturaModel>();
+    
 
+    model.IdFactura = 0;
+    model.IdCliente = iFac.IdCliente;
+    model.IdCamarero = iFac.IdCamarero;
+    model.IdMesa = iFac.IdMesa;
+    this.addDetBills.map(item => {
+      idet = new DetalleFacturaModel();
+      idet.IdCocinero = item.IdCocinero;
+      idet.Plato = item.Plato;
+      idet.Importe = item.Importe;
+      model.DetalleFactura.push(idet);
+    });
+
+    this._service.insert(model)
+      .pipe(finalize(() => this.ngxService.stop()))
+      .subscribe(response => {
+        if (response["IsSuccess"]){
+          this.clear();
+          this._general.showSuccess('Registrado exitosamente');
+          this.getChefAll();
+        } else {
+          this._general.showError(`Ha ocurrido un error inesperado: ${response["Message"]}`)  
+        }
+      }, error => {
+        this._general.showError('Ha ocurrido un error inesperado.');
+    });
   }
 
   private prepareItemDetFac(): DetalleFacturaModel {
     return new DetalleFacturaModel().deserialize(this.facForm.value);
+  }
+
+  private prepareItemFac(): FacturaModel {
+    return new FacturaModel().deserialize(this.facForm.value);
   }
 
 }

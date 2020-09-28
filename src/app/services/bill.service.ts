@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { ResponseModel } from '../models/response.model';
 import { ViewFacturaModel } from '../models/viewfactura.model';
+import { FacturaModel } from '../models/factura.model';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -25,5 +26,9 @@ export class BillService {
 
     getViewFactura(): Observable<Observable<ResponseModel<ViewFacturaModel[]>>> {        
         return this._http.get<Observable<ResponseModel<ViewFacturaModel[]>>>(`${this.endPointRpt}/GetViewFactura` );
+    }
+
+    insert(model: FacturaModel): Observable<Observable<ResponseModel<string>>> {
+        return this._http.post<Observable<ResponseModel<string>>>(`${this.endPoint}/InsertAsync`, model, httpOptions);
     }
 }

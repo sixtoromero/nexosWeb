@@ -8,7 +8,7 @@ export class FacturaModel implements Deserializable {
     public IdCamarero: number;
     public IdMesa: number;
     public FechaFactura: Date;
-    public DetalleFacturaModel: DetalleFacturaModel[];
+    public DetalleFactura: DetalleFacturaModel[];
 
     deserialize(input: any) {
         Object.assign(this, input);
