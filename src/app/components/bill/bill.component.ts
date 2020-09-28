@@ -43,7 +43,6 @@ export class BillComponent implements OnInit {
   addDetBills: DetalleFacturaModel[] = [];
   selectedAddDetBills = new DetalleFacturaModel();
 
-
   displayModalBill: boolean = false;
   isNew: boolean = true;
 
@@ -175,8 +174,9 @@ export class BillComponent implements OnInit {
 
   }
 
-  deleteBill(Id: number) {
-
+  deleteBill(item: DetalleFacturaModel) {
+    //deleteBill
+    console.log(item);
   }
 
   clear() {

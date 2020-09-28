@@ -8,6 +8,8 @@ export class DetalleFacturaModel implements Deserializable {
     public Plato: number;
     public Importe: number;
 
+    public Cocinero: string;
+
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

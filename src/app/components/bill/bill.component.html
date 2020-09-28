@@ -123,7 +123,100 @@
                                     </div>                                    
                                 </div>
                                 <div class="row">
-                                    
+                                    <p-table 
+                                        #dtAdd
+                                        [value]="addDetBills"
+                                        selectionMode="single"
+                                        [(selection)]="selectedAddDetBills"
+                                        dataKey="IdFactura"
+                                        styleClass="p-datatable-customers"
+                                        [rows]="5"
+                                        [paginator]="true" 
+                                        stateStorage="local" 
+                                        stateKey="statedemo-local">
+                                        <ng-template pTemplate="header">
+                                            <tr>                                        
+                                                <th pSortableColumn="IdCocinero">Id Cocinero <p-sortIcon field="IdCocinero"></p-sortIcon></th>
+                                                <th pSortableColumn="Cocinero">Cocinero <p-sortIcon field="Cocinero"></p-sortIcon></th>
+                                                <th pSortableColumn="Plato">Plato <p-sortIcon field="Plato"></p-sortIcon></th>
+                                                <th pSortableColumn="Importe">Importe <p-sortIcon field="Importe"></p-sortIcon></th>
+                                                <th pSortableColumn="Acciones">Acciones</th>
+                                            </tr>
+                                            <tr>                                        
+                                                <th>
+                                                    <input 
+                                                        pInputText 
+                                                        type="text" 
+                                                        (input)="dtAdd.filter($event.target.value, 'IdCocinero', 'contains')" 
+                                                        [value]="dtAdd.filters['IdCocinero']?.value" 
+                                                        placeholder="Buscar por Id" 
+                                                        class="p-column-filter">
+                                                </th>
+                                                <th>
+                                                    <input 
+                                                        pInputText 
+                                                        type="text" 
+                                                        (input)="dt1.filter($event.target.value, 'Cocinero', 'contains')" 
+                                                        [value]="dt1.filters['Cocinero']?.value" 
+                                                        placeholder="Buscar por Cocinero" 
+                                                        class="p-column-filter">
+                                                </th>
+                                                <th>
+                                                    <input 
+                                                        pInputText type="text" 
+                                                        (input)="dt1.filter($event.target.value, 'Plato', 'contains')" 
+                                                        [value]="dt1.filters['Plato']?.value" 
+                                                        placeholder="Buscar por Plato" 
+                                                        class="p-column-filter">
+                                                </th>
+                                                <th>
+                                                    <input 
+                                                        pInputText type="text" 
+                                                        (input)="dt1.filter($event.target.value, 'Importe', 'contains')" 
+                                                        [value]="dt1.filters['Importe']?.value" 
+                                                        placeholder="Buscar por Importe" 
+                                                        class="p-column-filter">
+                                                </th>
+                                                <th>                                            
+                                                </th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-addDetBills>
+                                            <tr [pSelectableRow]="bills">
+                                                <td>                  
+                                                    {{addDetBills.IdCocinero}}
+                                                </td>
+                                                <td>
+                                                    {{addDetBills.Cocinero}}
+                                                </td>
+                                                <td>
+                                                    {{addDetBills.Plato}}
+                                                </td>
+                                                <td>
+                                                    {{addDetBills.Importe}}
+                                                </td>
+                                                <td>
+                                                    <div class="row" style="text-align:center;">                                                        
+                                                        <div class="col-md-2">
+                                                            <button 
+                                                                pButton
+                                                                pRipple
+                                                                type="button"
+                                                                icon="pi pi-trash"
+                                                                (click)="deleteBill(addDetBills)"
+                                                                class="p-button-rounded p-button-info p-button-danger">
+                                                            </button>
+                                                        </div>
+                                                    </div>                                            
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td colspan="4">No customers found.</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>                                    
                                 </div>
                             </form>
                         </div>                                                
