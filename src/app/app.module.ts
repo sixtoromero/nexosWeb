@@ -24,6 +24,7 @@ import { EditorModule } from 'primeng/editor';
 import { VirtualScrollerModule } from 'primeng/virtualscroller'
 import {TableModule} from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -32,6 +33,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxCurrencyModule } from "ngx-currency";
 
 import { InterceptorService } from './interceptors/interceptor.service';
 import { NavbarComponent } from './components/shared/navbar/navbar.component'
@@ -41,6 +43,8 @@ import { WaiterComponent } from './components/waiter/waiter.component';
 import { CustomerComponent } from './components/customer/customer.component';
 import { TableComponent } from './components/table/table.component';
 import { BillComponent } from './components/bill/bill.component';
+
+
 
 import { APP_ROUTING } from './app.routes'
 
@@ -78,7 +82,9 @@ import { APP_ROUTING } from './app.routes'
     InfiniteScrollModule,
     TableModule,
     ToolbarModule,
-    NgxSpinnerModule
+    DropdownModule,
+    NgxSpinnerModule,
+    NgxCurrencyModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
