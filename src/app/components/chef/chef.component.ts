@@ -98,7 +98,9 @@ export class ChefComponent implements OnInit {
   }
 
   saveChef() {
-    //this.ngxService.start();
+    
+    this.ngxService.start();
+    
     const model = this.prepareSave();
 
     this._service.insert(model)
@@ -159,6 +161,7 @@ export class ChefComponent implements OnInit {
 
   clear(){
     this.displayModalChef = false;
+    this.isNew = false;
     this.chefForm.reset();
   }
 

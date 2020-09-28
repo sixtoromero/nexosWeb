@@ -21,10 +21,10 @@ import { finalize } from 'rxjs/operators';
 export class TableComponent implements OnInit {
 
   msgs: Message[] = [];
-  model = new MesaModel();
   tables: MesaModel[] = [];
   selectedTables = new MesaModel();
   
+  isNew: boolean = true;
   displayModalTable: boolean = false;
 
   public myForm: FormGroup  = new FormGroup({});
@@ -35,10 +35,13 @@ export class TableComponent implements OnInit {
       private _general: GeneralService,
       private confirmationService: ConfirmationService,
       private ngxService: NgxUiLoaderService) {
+
     this.myForm = fb.group({
-      numMaxComensa: ['', [Validators.required]],
-      ubicacion: ['', [Validators.required]]
+      IdMesa: ['', []],
+      NumMaxComensa: ['', [Validators.required]],
+      Ubicacion: ['', [Validators.required]]
     });
+
   }
 
   get f() {
@@ -46,8 +49,7 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTableAll();
-    this.model.IdMesa = 0;
+    this.getTableAll();    
   }
 
   getTableAll() {
@@ -64,8 +66,8 @@ export class TableComponent implements OnInit {
   }
 
   processTable() {
-    if (this.model.IdMesa === 0) {
-      this.saveTable();      
+    if (this.isNew === true) {
+      this.saveTable();
     } else {
       this.editTable();
     }
@@ -73,14 +75,17 @@ export class TableComponent implements OnInit {
 
   editTable() {
     //model.IdCocinero
-    this.ngxService.start();
-    this._service.update(this.model)
+    this.ngxService.start();    
+    
+    const model = this.prepareSave();
+
+    this._service.update(model)
     .pipe(
       finalize(() => this.ngxService.stop()))
     .subscribe(response => {
       if (response["IsSuccess"]){
         this.clear();
-        this._general.showSuccess('Registrado actualizado exitosamente');        
+        this._general.showSuccess('Registrado actualizado exitosamente');
         this.getTableAll();
       } else {
         this._general.showError(`Ha ocurrido un error inesperado: ${response["Message"]}`);
@@ -91,14 +96,11 @@ export class TableComponent implements OnInit {
   }
 
   saveTable() {
-    //this.ngxService.start();
-    this.clear();
     
-    //this.getTableAll();
+    this.ngxService.start();
+    const model = this.prepareSave();
 
-    //this.ngxService.stop()
-    /*
-    this._service.insert(this.model)
+    this._service.insert(model)
     .pipe(finalize(() => this.ngxService.stop()))
     .subscribe(response => {
       if (response["IsSuccess"]){        
@@ -106,16 +108,21 @@ export class TableComponent implements OnInit {
         this._general.showSuccess('Registrado exitosamente');        
         this.getTableAll();
       } else {
-        this._general.showError(`Ha ocurrido un error inesperado: ${response["Message"]}`)  
+        this._general.showError(`Ha ocurrido un error inesperado: ${response["Message"]}`);
       }
     }, error => {
       this._general.showError('Ha ocurrido un error inesperado.');
     });
-    */
+    
   }
 
-  editModal(chef: MesaModel){
-    this.model = chef;
+  editModal(model: MesaModel){
+
+    this.f.IdMesa.setValue(model.IdMesa);
+    this.f.NumMaxComensa.setValue(model.NumMaxComensa);
+    this.f.Ubicacion.setValue(model.Ubicacion);    
+
+    this.isNew = false;
     this.displayModalTable = true;
   }
 
@@ -145,7 +152,12 @@ export class TableComponent implements OnInit {
 
   clear(){
     this.displayModalTable = false;
-    this.model = new MesaModel();
+    this.isNew = false;
+    this.myForm.reset();
+  }
+
+  private prepareSave(): MesaModel {
+    return new MesaModel().deserialize(this.myForm.value);
   }
 
 }

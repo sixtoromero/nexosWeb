@@ -20,11 +20,12 @@ import { finalize } from 'rxjs/operators';
 export class WaiterComponent implements OnInit {
 
   msgs: Message[] = [];
-  model = new CamareroModel();
+  //model = new CamareroModel();
   waiters: CamareroModel[] = [];
   selectedWaiters = new CamareroModel();
   
   displayModalWaiter: boolean = false;
+  isNew: boolean = true;
 
   public myForm: FormGroup  = new FormGroup({});
 
@@ -36,9 +37,10 @@ export class WaiterComponent implements OnInit {
       private confirmationService: ConfirmationService,
       private ngxService: NgxUiLoaderService) {
     this.myForm = fb.group({
-      nombre: ['', [Validators.required]],
-      apellido1: ['', [Validators.required]],
-      apellido2: ['', [Validators.required]]
+      IdCamarero: ['', []],
+      Nombre: ['', [Validators.required]],
+      Apellido1: ['', [Validators.required]],
+      Apellido2: ['', [Validators.required]]
     });
   }
 
@@ -47,8 +49,7 @@ export class WaiterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getWaiterAll();
-    this.model.IdCamarero = 0;
+    this.getWaiterAll();    
   }
 
   getWaiterAll() {
@@ -65,7 +66,8 @@ export class WaiterComponent implements OnInit {
   }
 
   processWaiter() {
-    if (this.model.IdCamarero === 0) {
+    
+    if (this.isNew === true) {
       this.saveWaiter();      
     } else {
       this.editWaiter();
@@ -75,7 +77,8 @@ export class WaiterComponent implements OnInit {
   editWaiter() {
     //model.IdCamarero
     this.ngxService.start();
-    this._service.update(this.model)
+    const model = this.prepareSave();
+    this._service.update(model)
     .pipe(
       finalize(() => this.ngxService.stop()))
     .subscribe(response => {
@@ -93,7 +96,8 @@ export class WaiterComponent implements OnInit {
 
   saveWaiter() {
     this.ngxService.start();
-    this._service.insert(this.model)
+    const model = this.prepareSave();
+    this._service.insert(model)
     .pipe(finalize(() => this.ngxService.stop()))
     .subscribe(response => {
       if (response["IsSuccess"]){
@@ -108,9 +112,16 @@ export class WaiterComponent implements OnInit {
     });
   }
 
-  editModal(chef: CamareroModel){
-    this.model = chef;
+  editModal(model: CamareroModel){
+
+    this.f.IdCamarero.setValue(model.IdCamarero);
+    this.f.Nombre.setValue(model.Nombre);
+    this.f.Apellido1.setValue(model.Apellido1);
+    this.f.Apellido2.setValue(model.Apellido2);
+
+    this.isNew = false;    
     this.displayModalWaiter = true;
+
   }
 
   deleteWaiter(chef: CamareroModel) {
@@ -137,8 +148,14 @@ export class WaiterComponent implements OnInit {
   }
 
   clear(){
-    this.displayModalWaiter = false;
-    this.model = new CamareroModel();
+    this.displayModalWaiter = false;    
+    this.isNew = true;
+    this.myForm.reset();
   }
+
+  private prepareSave(): CamareroModel {
+    return new CamareroModel().deserialize(this.myForm.value);
+  }
+
 
 }

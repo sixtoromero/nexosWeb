@@ -96,12 +96,11 @@ export class CustomerComponent implements OnInit {
     this._service.insert(model)
     .pipe(finalize(() => this.ngxService.stop()))
     .subscribe(response => {
-      if (response["IsSuccess"]){
+      if (response["IsSuccess"]) {
         this.clear();
         this._general.showSuccess('Registrado exitosamente');
         this.getCustomerAll();
-      } else {
-        
+      } else {        
         this._general.showError(`Ha ocurrido un error inesperado: ${response["Message"]}`);
       }
     }, error => {
@@ -148,6 +147,7 @@ export class CustomerComponent implements OnInit {
 
   clear(){
     this.displayModalCustomer = false;
+    this.isNew = false;
     this.myForm.reset();
   }
 

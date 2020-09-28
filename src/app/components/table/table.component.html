@@ -8,7 +8,7 @@
                             <h3 class="card-title">Mesa</h3>
                         </div>
                         <div class="col-md-6" style="text-align: right;">
-                            <button pButton pRipple type="button" icon="pi pi-plus-circle" class="p-button-rounded" (click)="displayModalTable=true;"></button>
+                            <button pButton pRipple type="button" icon="pi pi-plus-circle" class="p-button-rounded" (click)="displayModalTable=true; f.IdMesa.setValue(0); isNew = true;"></button>
                         </div>
                     </div>                                        
                 </div>
@@ -124,15 +124,25 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <h6>Id</h6>
+                                        <input 
+                                            id="IdMesa" 
+                                            type="number" 
+                                            class="form-control" 
+                                            readonly="readonly"
+                                            formControlName="IdMesa" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <h6>Número</h6>
                                         <input 
                                             id="NumMaxComensa" 
                                             type="number" 
                                             class="form-control" 
-                                            formControlName="numMaxComensa"
-                                            [ngClass]="{ 'is-invalid': f.numMaxComensa.invalid && (f.numMaxComensa.dirty || f.numMaxComensa.touched) }"
-                                            [(ngModel)]="model.NumMaxComensa" />
-                                        <div *ngIf="f.numMaxComensa.errors && (f.numMaxComensa.dirty || f.numMaxComensa.touched)" class="invalid-feedback">
+                                            formControlName="NumMaxComensa"
+                                            [ngClass]="{ 'is-invalid': f.NumMaxComensa.invalid && (f.NumMaxComensa.dirty || f.NumMaxComensa.touched) }" />
+                                        <div *ngIf="f.NumMaxComensa.errors && (f.NumMaxComensa.dirty || f.NumMaxComensa.touched)" class="invalid-feedback">
                                             <div>El Número de mesa es requerido</div>
                                         </div>
                                     </div>
@@ -144,10 +154,9 @@
                                             id="Ubicacion" 
                                             type="text" 
                                             class="form-control" 
-                                            formControlName="ubicacion"
-                                            [ngClass]="{ 'is-invalid': f.ubicacion.invalid && (f.ubicacion.dirty || f.ubicacion.touched) }"
-                                            [(ngModel)]="model.Ubicacion" />
-                                        <div *ngIf="f.ubicacion.errors && (f.ubicacion.dirty || f.ubicacion.touched)" class="invalid-feedback">
+                                            formControlName="Ubicacion"
+                                            [ngClass]="{ 'is-invalid': f.Ubicacion.invalid && (f.Ubicacion.dirty || f.Ubicacion.touched) }" />
+                                        <div *ngIf="f.Ubicacion.errors && (f.Ubicacion.dirty || f.Ubicacion.touched)" class="invalid-feedback">
                                             <div>La ubicación es requerida</div>
                                         </div>
                                     </div>
