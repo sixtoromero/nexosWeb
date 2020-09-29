@@ -195,6 +195,7 @@ export class BillComponent implements OnInit {
   }
 
   addItem() {
+    debugger;
     let idetFac: DetalleFacturaModel = new DetalleFacturaModel();
     const iModel = this.prepareItemDetFac();
 
