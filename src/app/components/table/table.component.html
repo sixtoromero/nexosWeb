@@ -38,7 +38,7 @@
                                                 pInputText 
                                                 type="number"
                                                 (input)="dt1.filter($event.target.value, 'NumMaxComensa', 'contains')" 
-                                                [value]="dt1.filters['_about']?.value" 
+                                                [value]="dt1.filters['NumMaxComensa']?.value" 
                                                 placeholder="Buscar por Numero" 
                                                 class="p-column-filter">
                                         </th>
@@ -47,7 +47,7 @@
                                                 pInputText 
                                                 type="text" 
                                                 (input)="dt1.filter($event.target.value, 'Ubicacion', 'contains')" 
-                                                [value]="dt1.filters['accessURL']?.value" 
+                                                [value]="dt1.filters['Ubicacion']?.value" 
                                                 placeholder="Buscar por Ubicacion" 
                                                 class="p-column-filter">
                                         </th>                                        

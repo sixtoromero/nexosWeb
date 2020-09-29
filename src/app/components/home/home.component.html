@@ -13,7 +13,7 @@
     stateKey="statedemo-local">
     <ng-template pTemplate="header">
         <tr>                                        
-            <th pSortableColumn="Nombres">Nombres <p-sortIcon field="Nombres"></p-sortIcon></th>
+            <th pSortableColumn="Nombre">Nombres <p-sortIcon field="Nombre"></p-sortIcon></th>
             <th pSortableColumn="Apellido1">Primer Apellido <p-sortIcon field="Apellido1"></p-sortIcon></th>
             <th pSortableColumn="Apellido2">Segundo Apellido <p-sortIcon field="Apellido2"></p-sortIcon></th>
             <th pSortableColumn="Mes">Mes <p-sortIcon field="Mes"></p-sortIcon></th>
@@ -24,8 +24,8 @@
                 <input 
                     pInputText 
                     type="text" 
-                    (input)="dtFac.filter($event.target.value, 'Nombres', 'contains')" 
-                    [value]="dtFac.filters['Nombres']?.value" 
+                    (input)="dtFac.filter($event.target.value, 'Nombre', 'contains')" 
+                    [value]="dtFac.filters['Nombre']?.value" 
                     placeholder="Buscar por Nombres" 
                     class="p-column-filter">
             </th>
@@ -102,8 +102,7 @@
             <th pSortableColumn="Apellido1">Primer Apellido<p-sortIcon field="Apellido1"></p-sortIcon></th>
             <th pSortableColumn="Apellido2">Segundo Apellido<p-sortIcon field="Apellido2"></p-sortIcon></th>                                        
             <th pSortableColumn="Observaciones">Observaciones<p-sortIcon field="Observaciones"></p-sortIcon></th>
-            <th pSortableColumn="Total">Total<p-sortIcon field="Total"></p-sortIcon></th>
-            <th pSortableColumn="Acciones">Acciones</th>
+            <th pSortableColumn="Total">Total<p-sortIcon field="Total"></p-sortIcon></th>            
         </tr>
         <tr>                                        
             <th>
@@ -169,3 +168,6 @@
         </tr>
     </ng-template>
 </p-table>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<ngx-ui-loader></ngx-ui-loader>
+<p-toast></p-toast>

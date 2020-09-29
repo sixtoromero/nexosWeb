@@ -43,7 +43,7 @@
                                                 pInputText 
                                                 type="text" 
                                                 (input)="dt1.filter($event.target.value, 'Nombre', 'contains')" 
-                                                [value]="dt1.filters['_about']?.value" 
+                                                [value]="dt1.filters['Nombre']?.value" 
                                                 placeholder="Buscar por Nombres" 
                                                 class="p-column-filter">
                                         </th>
@@ -52,7 +52,7 @@
                                                 pInputText 
                                                 type="text" 
                                                 (input)="dt1.filter($event.target.value, 'Apellido1', 'contains')" 
-                                                [value]="dt1.filters['accessURL']?.value" 
+                                                [value]="dt1.filters['Apellido1']?.value" 
                                                 placeholder="Buscar por Primer Apellido" 
                                                 class="p-column-filter">
                                         </th>
@@ -60,7 +60,7 @@
                                             <input 
                                                 pInputText type="text" 
                                                 (input)="dt1.filter($event.target.value, 'Apellido2', 'contains')" 
-                                                [value]="dt1.filters['title']?.value" 
+                                                [value]="dt1.filters['Apellido2']?.value" 
                                                 placeholder="Buscar por Segundo Apellido" 
                                                 class="p-column-filter">
                                         </th>
