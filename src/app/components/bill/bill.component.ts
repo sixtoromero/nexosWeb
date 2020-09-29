@@ -176,8 +176,12 @@ export class BillComponent implements OnInit {
   }
 
   deleteBill(item: DetalleFacturaModel) {
-    //deleteBill
-    console.log(item);
+    //console.log(item);
+    let index = this.addDetBills.indexOf(item);
+    if (index !== -1) {
+      this.addDetBills.splice(index, 1);
+    }
+    
   }
 
   clear() {

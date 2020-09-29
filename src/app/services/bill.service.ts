@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { ResponseModel } from '../models/response.model';
 import { ViewFacturaModel } from '../models/viewfactura.model';
 import { FacturaModel } from '../models/factura.model';
+import { TotalesByCamareroModel } from '../models/totalesbycamarero.model';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -31,4 +32,10 @@ export class BillService {
     insert(model: FacturaModel): Observable<Observable<ResponseModel<string>>> {
         return this._http.post<Observable<ResponseModel<string>>>(`${this.endPoint}/InsertAsync`, model, httpOptions);
     }
+
+    getTotalesByCamarero(): Observable<Observable<ResponseModel<TotalesByCamareroModel[]>>> {        
+        return this._http.get<Observable<ResponseModel<TotalesByCamareroModel[]>>>(`${this.endPointRpt}/GetTotalesporCamarero` );
+    }
+    
+    
 }

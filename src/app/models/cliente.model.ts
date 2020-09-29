@@ -6,6 +6,7 @@ export class ClienteModel implements Deserializable {
     public Apellido1: string;
     public Apellido2: string;
     public Observaciones: string;
+    public Total: number;
 
     deserialize(input: any) {
         Object.assign(this, input);

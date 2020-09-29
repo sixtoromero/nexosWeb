@@ -25,6 +25,10 @@ export class CustomerService {
         return this._http.get<Observable<ResponseModel<ClienteModel[]>>>(`${this.endPoint}/GetAllAsync` );
     }
 
+    getClientesMayorCompra(): Observable<Observable<ResponseModel<ClienteModel[]>>> {        
+        return this._http.get<Observable<ResponseModel<ClienteModel[]>>>(`${this.endPoint}/GetClientesMayorCompra` );
+    }
+
     insert(model: ClienteModel): Observable<Observable<ResponseModel<string>>> {
         return this._http.post<Observable<ResponseModel<string>>>(`${this.endPoint}/InsertAsync`, model, httpOptions);
     }
