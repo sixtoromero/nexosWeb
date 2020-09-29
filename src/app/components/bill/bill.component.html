@@ -267,7 +267,7 @@
                                         <th pSortableColumn="Camarero">Camarero <p-sortIcon field="Camarero"></p-sortIcon></th>
                                         <th pSortableColumn="Mesa">Mesa <p-sortIcon field="Mesa"></p-sortIcon></th>
                                         <th pSortableColumn="Fecha">Fecha <p-sortIcon field="Fecha"></p-sortIcon></th>
-                                        <th pSortableColumn="Acciones">Acciones</th>
+                                        <!-- <th pSortableColumn="Acciones">Acciones</th> -->
                                     </tr>
                                     <tr>                                        
                                         <th>
@@ -304,8 +304,8 @@
                                                 placeholder="Buscar por Fecha" 
                                                 class="p-column-filter">
                                         </th>
-                                        <th>                                            
-                                        </th>
+                                        <!-- <th>                                            
+                                        </th> -->
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-bills>
@@ -322,7 +322,7 @@
                                         <td>
                                             {{bills.Fecha | date}}
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <div class="row" style="text-align:center;">
                                                 <div class="col-md-2">
                                                     <button 
@@ -346,7 +346,7 @@
                                                     </button>
                                                 </div>
                                             </div>                                            
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">
