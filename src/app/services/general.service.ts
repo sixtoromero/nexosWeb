@@ -11,8 +11,7 @@ import { MessageService, ConfirmationService, Message } from 'primeng/api';
 })
 export class GeneralService {
     
-
-    constructor(private messageService: MessageService) { }    
+    constructor(private messageService: MessageService) { }
 
     showSuccess(message: string) {
         this.messageService.add({severity:'success', summary: 'Bien hecho', detail: message});

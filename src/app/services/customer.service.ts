@@ -5,7 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ResponseModel } from '../models/response.model';
-import { ClienteModel } from '../models/cliente.model';
+import { CustomerModel } from '../models/customer.model';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -17,23 +17,20 @@ const httpOptions = {
     providedIn: 'root',
 })
 export class CustomerService {
-    endPoint = `${environment.apiURL}/Cliente`;
+    
+    endPoint = `${environment.apiURL}/Customer`;
 
     constructor(private _http: HttpClient) { }
 
-    getCustomerAll(): Observable<Observable<ResponseModel<ClienteModel[]>>> {        
-        return this._http.get<Observable<ResponseModel<ClienteModel[]>>>(`${this.endPoint}/GetAllAsync` );
+    getTableAll(): Observable<Observable<ResponseModel<CustomerModel[]>>> {        
+        return this._http.get<Observable<ResponseModel<CustomerModel[]>>>(`${this.endPoint}/GetAllAsync` );
     }
 
-    getClientesMayorCompra(): Observable<Observable<ResponseModel<ClienteModel[]>>> {        
-        return this._http.get<Observable<ResponseModel<ClienteModel[]>>>(`${this.endPoint}/GetClientesMayorCompra` );
-    }
-
-    insert(model: ClienteModel): Observable<Observable<ResponseModel<string>>> {
+    insert(model: CustomerModel): Observable<Observable<ResponseModel<string>>> {
         return this._http.post<Observable<ResponseModel<string>>>(`${this.endPoint}/InsertAsync`, model, httpOptions);
     }
 
-    update(model: ClienteModel): Observable<Observable<ResponseModel<string>>> {
+    update(model: CustomerModel): Observable<Observable<ResponseModel<string>>> {
         return this._http.put<Observable<ResponseModel<string>>>(`${this.endPoint}/UpdateAsync`, model, httpOptions);
     }
 

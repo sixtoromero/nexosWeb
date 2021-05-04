@@ -1,173 +1,253 @@
-<br />
-<p class="lead">Informe general de Facturación por Camarero</p>
 <hr />
+<div class="row">
+    <div class="col-md-6">
+        <p class="lead">Registros de Correspondencia</p>
+    </div>
+    <div class="col-md-6" style="text-align: right;">
+        <button pButton pRipple type="button" icon="pi pi-plus-circle" class="p-button-rounded" (click)="displayModal=true; this.isNew = true; myForm.reset();"></button>
+    </div>
+</div>    
 <p-table 
-    #dtFac 
-    [value]="reportTotales"
+    #dtCor 
+    [value]="results"
     selectionMode="single"    
-    dataKey="IdCamarero"
-    styleClass="p-datatable-customers"
+    dataKey="Id"
+    styleClass="p-datatable-correspondences"    
     [rows]="5"
     [paginator]="true" 
-    stateStorage="local" 
+    stateStorage="local"
     stateKey="statedemo-local">
     <ng-template pTemplate="header">
         <tr>                                        
-            <th pSortableColumn="Nombre">Nombres <p-sortIcon field="Nombre"></p-sortIcon></th>
-            <th pSortableColumn="Apellido1">Primer Apellido <p-sortIcon field="Apellido1"></p-sortIcon></th>
-            <th pSortableColumn="Apellido2">Segundo Apellido <p-sortIcon field="Apellido2"></p-sortIcon></th>
-            <th pSortableColumn="Mes">Mes <p-sortIcon field="Mes"></p-sortIcon></th>
-            <th pSortableColumn="Total">Total <p-sortIcon field="Total"></p-sortIcon></th>            
+            <th pSortableColumn="Consecutive">Consecutivo <p-sortIcon field="Consecutive"></p-sortIcon></th>
+            <th pSortableColumn="Type">Tipo <p-sortIcon field="Type"></p-sortIcon></th>
+            <th pSortableColumn="Sender">Remitente <p-sortIcon field="Sender"></p-sortIcon></th>
+            <th pSortableColumn="Addressee">Destinatario <p-sortIcon field="Addressee"></p-sortIcon></th>
+            <th pSortableColumn="Subject">Asunto<p-sortIcon field="Subject"></p-sortIcon></th>
+            <th pSortableColumn="Acciones">Acciones</th>
         </tr>
-        <tr>                                        
+        <tr>
             <th>
                 <input 
                     pInputText 
                     type="text" 
-                    (input)="dtFac.filter($event.target.value, 'Nombre', 'contains')" 
-                    [value]="dtFac.filters['Nombre']?.value" 
-                    placeholder="Buscar por Nombres" 
+                    (input)="dtCor.filter($event.target.value, 'Consecutive', 'contains')" 
+                    [value]="dtCor.filters['Consecutive']?.value" 
+                    placeholder="Buscar por Consecutivo" 
                     class="p-column-filter">
             </th>
             <th>
                 <input 
                     pInputText 
                     type="text" 
-                    (input)="dtFac.filter($event.target.value, 'Apellido1', 'contains')" 
-                    [value]="dtFac.filters['Apellido1']?.value" 
-                    placeholder="Buscar por Primer Apellido" 
+                    (input)="dtCor.filter($event.target.value, 'Type', 'contains')" 
+                    [value]="dtCor.filters['Type']?.value" 
+                    placeholder="Buscar por Tipo" 
                     class="p-column-filter">
             </th>
             <th>
                 <input 
                     pInputText type="text" 
-                    (input)="dtFac.filter($event.target.value, 'Apellido2', 'contains')" 
-                    [value]="dtFac.filters['Apellido2']?.value" 
-                    placeholder="Buscar Segundo Apellido" 
+                    (input)="dtCor.filter($event.target.value, 'Sender', 'contains')" 
+                    [value]="dtCor.filters['Sender']?.value" 
+                    placeholder="Buscar Remitente" 
                     class="p-column-filter">
             </th>
             <th>
                 <input 
                     pInputText type="text" 
-                    (input)="dtFac.filter($event.target.value, 'Mes', 'contains')" 
-                    [value]="dtFac.filters['Mes']?.value" 
-                    placeholder="Buscar por Mes" 
+                    (input)="dtCor.filter($event.target.value, 'Addressee', 'contains')" 
+                    [value]="dtCor.filters['Addressee']?.value" 
+                    placeholder="Buscar por Destinatario" 
+                    class="p-column-filter">
+            </th>
+            <th>
+                <input 
+                    pInputText type="text" 
+                    (input)="dtCor.filter($event.target.value, 'Subject', 'contains')" 
+                    [value]="dtCor.filters['Subject']?.value" 
+                    placeholder="Buscar por Asunto" 
                     class="p-column-filter">
             </th>
             <th>                                            
             </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-reportTotales>
-        <tr [pSelectableRow]="reportTotales">
+    <ng-template pTemplate="body" let-result>
+        <tr>
             <td>                  
-                {{reportTotales.Nombre}}
+                {{result.Consecutive}}
             </td>
             <td>
-                {{reportTotales.Apellido1}}
+                {{result.Type}}
             </td>
             <td>
-                {{reportTotales.Apellido2}}
+                {{result.Sender}}
             </td>
             <td>
-                {{reportTotales.Mes}}
+                {{result.Addressee}}
             </td>
             <td>
-              {{reportTotales.Total | currency }}
+                {{result.Subject}}
+            </td>
+            <td>
+                <div class="row" style="text-align:center;">
+                    <div class="col-md-2">
+                        <button 
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-trash"
+                            (click)="confirmDelete(result.Id)"
+                            class="p-button-rounded p-button-info p-button-danger">
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button 
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-pencil"
+                            (click)="editModal(result)"
+                            class="p-button-rounded p-button-info p-button-success">
+                        </button>
+                    </div>
+                </div>
             </td>            
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="4">No customers found.</td>
+            <td colspan="4">No correspondences found.</td>
         </tr>
     </ng-template>
 </p-table>
-<br />
-<p class="lead">Clientes con más de 100.000 pesos gastados en el Restaurante</p>
-<hr />
-<p-table 
-    #dt1 
-    [value]="customers"
-    selectionMode="single"    
-    dataKey="IdCliente"
-    styleClass="p-datatable-customers"
-    [rows]="5"
-    [paginator]="true" 
-    stateStorage="local" 
-    stateKey="statedemo-local">
-    <ng-template pTemplate="header">
-        <tr>                                        
-            <th pSortableColumn="Nombre">Nombres Completo<p-sortIcon field="Nombre"></p-sortIcon></th>
-            <th pSortableColumn="Apellido1">Primer Apellido<p-sortIcon field="Apellido1"></p-sortIcon></th>
-            <th pSortableColumn="Apellido2">Segundo Apellido<p-sortIcon field="Apellido2"></p-sortIcon></th>                                        
-            <th pSortableColumn="Observaciones">Observaciones<p-sortIcon field="Observaciones"></p-sortIcon></th>
-            <th pSortableColumn="Total">Total<p-sortIcon field="Total"></p-sortIcon></th>            
-        </tr>
-        <tr>                                        
-            <th>
-                <input 
-                    pInputText 
-                    type="text" 
-                    (input)="dt1.filter($event.target.value, 'Nombre', 'contains')" 
-                    [value]="dt1.filters['_about']?.value" 
-                    placeholder="Buscar por Nombres" 
-                    class="p-column-filter">
-            </th>
-            <th>
-                <input 
-                    pInputText 
-                    type="text" 
-                    (input)="dt1.filter($event.target.value, 'Apellido1', 'contains')" 
-                    [value]="dt1.filters['accessURL']?.value" 
-                    placeholder="Buscar por Primer Apellido" 
-                    class="p-column-filter">
-            </th>
-            <th>
-                <input 
-                    pInputText type="text" 
-                    (input)="dt1.filter($event.target.value, 'Apellido2', 'contains')" 
-                    [value]="dt1.filters['title']?.value" 
-                    placeholder="Buscar por Segundo Apellido" 
-                    class="p-column-filter">
-            </th>
-            <th>
-                <input 
-                    pInputText type="text" 
-                    (input)="dt1.filter($event.target.value, 'Observaciones', 'contains')" 
-                    [value]="dt1.filters['title']?.value" 
-                    placeholder="Buscar por Observaciones" 
-                    class="p-column-filter">
-            </th>
-            <th>                                            
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-customers>
-        <tr [pSelectableRow]="customers">
-            <td>                  
-                {{customers.Nombre}}
-            </td>
-            <td>
-                {{customers.Apellido1}}
-            </td>
-            <td>
-                {{customers.Apellido2}}
-            </td>                                    
-            <td>
-                {{customers.Observaciones}}
-            </td>
-            <td>
-              {{customers.Total | currency}}
-          </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td colspan="4">No customers found.</td>
-        </tr>
-    </ng-template>
-</p-table>
+
+<p-dialog 
+    header="" 
+    [(visible)]="displayModal"
+    [modal]="true" 
+    [style]="{width: '80vw'}" 
+    [baseZIndex]="10000" 
+    [draggable]="false" 
+    [resizable]="false"
+    [closable]="false">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title">Crear Correspondencia</h3>
+                </div>
+                <div class="card-body">
+                    <div class="card card-success">
+                        <div class="card-header">                    
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="card-title">Registro</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="myForm" #Tablefrm="ngForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h6>Tipo</h6>
+                                            <select
+                                                class="browser-default custom-select"
+                                                formControlName="Type"
+                                                [ngClass]="{ 'is-invalid': f.Type.invalid && (f.Type.dirty || f.Type.touched) }">
+                                                <option value="CI">Interna</option>
+                                                <option value="CE">Externa</option>
+                                            </select>
+                                            <div *ngIf="f.Type.errors && (f.Type.dirty || f.Type.touched)" class="invalid-feedback">
+                                                <div>El tipo es requerido</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Remitente</h6>
+                                        <div class="input-group mb-3">                                
+                                            <select
+                                                class="browser-default custom-select"
+                                                formControlName="SenderId"
+                                                [ngClass]="{ 'is-invalid': f.SenderId.invalid && (f.SenderId.dirty || f.SenderId.touched) }">
+                                                <option *ngFor="let item of Senders" [value]="item.Id">{{item.Id}} {{ item.Names }} {{ item.Surnames }}</option>
+                                            </select>                                            
+                                            <div *ngIf="f.SenderId.errors && (f.SenderId.dirty || f.SenderId.touched)" class="invalid-feedback">
+                                                <div>El tipo es requerido</div>
+                                            </div>
+                                        </div>                            
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Destinatario</h6>
+                                        <div class="input-group mb-3">                                      
+                                            <select
+                                                class="browser-default custom-select"
+                                                formControlName="AddresseeId"
+                                                [ngClass]="{ 'is-invalid': f.AddresseeId.invalid && (f.AddresseeId.dirty || f.AddresseeId.touched) }">
+                                                <option 
+                                                    *ngFor="let item of Addressees"
+                                                    [value]="item.Id">
+                                                    {{ item.Names }} {{ item.Surnames }}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="f.AddresseeId.errors && (f.AddresseeId.dirty || f.AddresseeId.touched)" class="invalid-feedback">
+                                                <div>El tipo es requerido</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h6>Asunto</h6>
+                                            <input 
+                                                id="Subject" 
+                                                type="text" 
+                                                class="form-control" 
+                                                formControlName="Subject"
+                                                [ngClass]="{ 'is-invalid': f.Subject.invalid && (f.Subject.dirty || f.Subject.touched) }" />
+                                            <div *ngIf="f.Subject.errors && (f.Subject.dirty || f.Subject.touched)" class="invalid-feedback">
+                                                <div>La ubicación es requerida</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <h6>Mensaje</h6>
+                                            <textarea
+                                                id="Body" 
+                                                type="text" 
+                                                class="form-control" 
+                                                formControlName="Body"
+                                                [ngClass]="{ 'is-invalid': f.Body.invalid && (f.Body.dirty || f.Body.touched) }">
+                                            </textarea>
+                                            <div *ngIf="f.Body.errors && (f.Body.dirty || f.Body.touched)" class="invalid-feedback">
+                                                <div>La ubicación es requerida</div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </div>     
+                            </form>                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-footer>            
+        <button type="button" pButton (click)="displayModal=false;" label="Cerrar" class="ui-button-secondary"></button>
+        <button 
+            pButton 
+            pRipple 
+            type="button" 
+            label="Guardar"             
+            class="p-button-success"
+            [disabled]="!myForm.valid"
+            (click)="insertOrupdate()">
+        </button>
+    </p-footer>
+</p-dialog>
+
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <ngx-ui-loader></ngx-ui-loader>
 <p-toast></p-toast>

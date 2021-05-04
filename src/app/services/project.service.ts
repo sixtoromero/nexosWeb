@@ -5,7 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ResponseModel } from '../models/response.model';
-import { CocineroModel } from '../models/cocinero.model';
+import { ProjectModel } from '../models/project.model';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -16,20 +16,25 @@ const httpOptions = {
 @Injectable({
     providedIn: 'root',
 })
-export class ChefService {
-    endPoint = `${environment.apiURL}/Cocinero`;
+export class ProjectService {
+    
+    endPoint = `${environment.apiURL}/Project`;
 
     constructor(private _http: HttpClient) { }
 
-    getChefAll(): Observable<Observable<ResponseModel<CocineroModel[]>>> {        
-        return this._http.get<Observable<ResponseModel<CocineroModel[]>>>(`${this.endPoint}/GetAllAsync` );
+    getProjectInfo(): Observable<Observable<ResponseModel<ProjectModel[]>>> {        
+        return this._http.get<Observable<ResponseModel<ProjectModel[]>>>(`${this.endPoint}/GetProjectInfoAsync` );
     }
 
-    insert(model: CocineroModel): Observable<Observable<ResponseModel<string>>> {
+    getById(Id: number): Observable<Observable<ResponseModel<ProjectModel>>> {        
+        return this._http.get<Observable<ResponseModel<ProjectModel>>>(`${this.endPoint}/GetAsyncByUserId/${Id}` );
+    }
+
+    insert(model: ProjectModel): Observable<Observable<ResponseModel<string>>> {
         return this._http.post<Observable<ResponseModel<string>>>(`${this.endPoint}/InsertAsync`, model, httpOptions);
     }
 
-    update(model: CocineroModel): Observable<Observable<ResponseModel<string>>> {
+    update(model: ProjectModel): Observable<Observable<ResponseModel<string>>> {
         return this._http.put<Observable<ResponseModel<string>>>(`${this.endPoint}/UpdateAsync`, model, httpOptions);
     }
 
